@@ -2,45 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Layout: midnight-violet pill nav on a seashell canvas; light wheat / powder-blue cards, dark accents.
-   Palette: Seashell #FFF4EB, Wheat #F6E0B6, Powder Blue #A6BCC9, French Blue #3E4B8E, Midnight Violet #3D1534 */
+/* Layout: royal-blue pill nav on a Swan Wing canvas; light sand / shell / blue-tint cards, dark blue accents.
+   Palette: Swan Wing #F5F0E9, Shellstone #D9CBC2, Quicksand #E0C68F, Sapphire #3C507D, Royal Blue #112250 */
 :root {
-  --bg: 255 244 235;        /* Seashell */
-  --surface: 255 251 247;
-  --surface-2: 250 238 227;
-  --fg: 61 21 52;           /* Midnight Violet */
-  --muted: 128 104 122;
-  --line: 239 224 212;
-  --accent: 62 75 142;      /* French Blue */
-  --accent-fg: 255 244 235;
-  --nav: 61 21 52;          /* Midnight Violet */
-  --nav-fg: 255 244 235;
-  /* text on light cards stays Midnight Violet in both themes */
-  --ink: 61 21 52;
-  --ink-soft: 104 74 98;
-  --lavender: 214 219 240;  /* French Blue tint */
-  --sky: 166 188 201;       /* Powder Blue */
-  --mint: 210 223 231;      /* Powder Blue tint */
-  --butter: 246 224 182;    /* Wheat */
-  --peach: 245 214 196;     /* warm Wheat-rose */
-  --lilac: 232 215 228;     /* Midnight Violet tint */
-  --danger: 176 58 88;
-  --success: 62 75 142;
+  --bg: 245 240 233;        /* Swan Wing */
+  --surface: 255 252 248;
+  --surface-2: 238 231 222;
+  --fg: 17 34 80;           /* Royal Blue */
+  --muted: 110 118 144;
+  --line: 228 220 209;
+  --accent: 60 80 125;      /* Sapphire */
+  --accent-fg: 245 240 233;
+  --nav: 17 34 80;          /* Royal Blue */
+  --nav-fg: 245 240 233;
+  /* text on light cards stays Royal Blue in both themes */
+  --ink: 17 34 80;
+  --ink-soft: 69 80 122;
+  --lavender: 213 219 234;  /* Sapphire tint */
+  --sky: 196 206 226;       /* Sapphire light */
+  --mint: 226 230 236;      /* cool Swan Wing */
+  --butter: 232 211 166;    /* Quicksand light */
+  --peach: 217 203 194;     /* Shellstone */
+  --lilac: 236 228 220;     /* Shellstone light */
+  --danger: 168 67 79;
+  --success: 60 80 125;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: 31 14 28; --surface: 46 24 42; --surface-2: 58 32 53; --fg: 255 244 235; --muted: 190 168 182;
-    --line: 74 44 68; --accent: 166 188 201; --accent-fg: 61 21 52; --nav: 20 8 18; --nav-fg: 255 244 235;
-    --lavender: 196 203 232; --sky: 166 188 201; --mint: 196 212 222; --butter: 240 216 170; --peach: 236 200 182; --lilac: 220 200 216;
-    --danger: 236 130 150; --success: 166 188 201;
+    --bg: 11 21 48; --surface: 22 35 74; --surface-2: 30 46 92; --fg: 245 240 233; --muted: 170 178 200;
+    --line: 42 58 104; --accent: 224 198 143; --accent-fg: 17 34 80; --nav: 7 14 34; --nav-fg: 245 240 233;
+    --lavender: 205 213 232; --sky: 190 202 226; --mint: 214 221 234; --butter: 224 198 143; --peach: 217 203 194; --lilac: 232 224 216;
+    --danger: 232 128 138; --success: 224 198 143;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: 31 14 28; --surface: 46 24 42; --surface-2: 58 32 53; --fg: 255 244 235; --muted: 190 168 182;
-  --line: 74 44 68; --accent: 166 188 201; --accent-fg: 61 21 52; --nav: 20 8 18; --nav-fg: 255 244 235;
-  --lavender: 196 203 232; --sky: 166 188 201; --mint: 196 212 222; --butter: 240 216 170; --peach: 236 200 182; --lilac: 220 200 216;
-  --danger: 236 130 150; --success: 166 188 201;
+  --bg: 11 21 48; --surface: 22 35 74; --surface-2: 30 46 92; --fg: 245 240 233; --muted: 170 178 200;
+  --line: 42 58 104; --accent: 224 198 143; --accent-fg: 17 34 80; --nav: 7 14 34; --nav-fg: 245 240 233;
+  --lavender: 205 213 232; --sky: 190 202 226; --mint: 214 221 234; --butter: 224 198 143; --peach: 217 203 194; --lilac: 232 224 216;
+  --danger: 232 128 138; --success: 224 198 143;
   color-scheme: dark;
 }
 
