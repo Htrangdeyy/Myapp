@@ -1,51 +1,32 @@
-import { AlertTriangle, ExternalLink, RefreshCw } from "lucide-react";
-import { SHEET_URL } from "@/data/config";
+import { AlertTriangle, RefreshCw } from "lucide-react";
 import { usePlanner } from "@/data/PlannerProvider";
 import { cn } from "@/lib/utils";
 
-function ago(iso: string): string {
-  const mins = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
-  if (mins < 1) return "vừa xong";
-  if (mins < 60) return `${mins} phút trước`;
-  const h = Math.round(mins / 60);
-  if (h < 24) return `${h} giờ trước`;
-  return new Date(iso).toLocaleDateString("vi-VN");
-}
-
 /** Where the data comes from, how fresh it is, and what is still waiting to reach the Sheet. */
 export function SyncStatus({ className }: { className?: string }) {
-  const { mode, sync, busy, syncNow } = usePlanner();
-  const label =
+  const { mode, sync, syncNow } = usePlanner();
+  const notice =
     mode === "demo" ? "Dữ liệu mẫu · mở trong claude.ai để thấy lịch thật" :
-    mode === "connecting" ? "Đang kết nối…" :
-    mode === "unavailable" ? "Trang này không đọc được database" :
-    busy ? "Đang lưu…" :
-    sync.syncedAt ? `Lấy từ Blair's Calendar · ${ago(sync.syncedAt)}` :
-    "Chưa đồng bộ lần nào";
+    mode === "unavailable" ? "Trang này không đọc được database" : null;
+  if (!notice && !sync.pending && !(mode === "live" && sync.canTrigger) && !sync.lastError) return null;
   return (
-    <div className={cn("flex flex-wrap items-center gap-2 text-sm font-medium text-muted", className)}>
-      <span className="inline-flex min-h-[36px] items-center gap-2 rounded-full bg-surface px-4 py-2 shadow-soft">
-        {sync.lastError ? <AlertTriangle className="h-4 w-4 text-danger" /> : (
-          <span className={cn("h-2 w-2 rounded-full", mode === "live" && sync.syncedAt ? "bg-success" : mode === "demo" ? "bg-butter" : "bg-muted", busy && "animate-pulse")} />
-        )}
-        {label}
-      </span>
+    <div className={cn("flex flex-wrap items-center gap-1.5 text-xs font-medium text-muted", className)}>
+      {notice && <span className="rounded-full bg-surface px-2.5 py-1 shadow-soft">{notice}</span>}
       {sync.pending > 0 && (
-        <span className="inline-flex min-h-[36px] items-center rounded-full bg-butter px-4 py-2 font-semibold text-ink" title="Sẽ được ghi vào Sheet ở lần đồng bộ tới">
+        <span className="rounded-full bg-butter px-2.5 py-1 font-semibold text-ink" title="Sẽ được ghi vào Sheet ở lần đồng bộ tới">
           {sync.pending} thay đổi chờ ghi vào Sheet
         </span>
       )}
       {mode === "live" && sync.canTrigger && (
-        <button onClick={syncNow} disabled={sync.triggering} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full bg-surface/60 px-3 py-2 hover:text-fg disabled:opacity-50">
-          <RefreshCw className={cn("h-4 w-4", sync.triggering && "animate-spin")} /> Đồng bộ ngay
+        <button onClick={syncNow} disabled={sync.triggering} className="inline-flex items-center gap-1 rounded-full px-2 py-1 hover:text-fg disabled:opacity-50">
+          <RefreshCw className={cn("h-3 w-3", sync.triggering && "animate-spin")} /> Đồng bộ
         </button>
       )}
-      {mode === "live" && (
-        <a href={SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full bg-surface/60 px-3 py-2 hover:text-fg">
-          <ExternalLink className="h-4 w-4" /> Mở Sheet
-        </a>
+      {sync.lastError && (
+        <span className="inline-flex w-full items-center gap-1 text-danger">
+          <AlertTriangle className="h-3 w-3" /> Lần đồng bộ trước báo lỗi: {sync.lastError}
+        </span>
       )}
-      {sync.lastError && <span className="w-full text-danger">Lần đồng bộ trước báo lỗi: {sync.lastError}</span>}
     </div>
   );
 }
