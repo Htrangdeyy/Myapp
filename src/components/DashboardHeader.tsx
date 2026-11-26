@@ -1,17 +1,11 @@
-import { Plus, Search } from "lucide-react";
+import { Plus, Quote as QuoteIcon, Search } from "lucide-react";
+import { quoteOfDay } from "@/domain/quotes";
 import { useMemo, useState } from "react";
 import { usePlanner } from "@/data/PlannerProvider";
 import { currentHour, fmtDM } from "@/lib/date";
 import { Button } from "./ui/button";
 import { SyncStatus } from "./SyncStatus";
 
-const QUOTES = [
-  "Làm từng việc nhỏ, đều đặn mỗi ngày.",
-  "Một giờ tập trung hơn ba giờ dang dở.",
-  "Tiến bộ quan trọng hơn hoàn hảo.",
-  "Việc khó nhất, làm trước tiên.",
-  "Hôm nay gieo, mùa sau gặt.",
-];
 
 function greeting(h: number) {
   if (h < 11) return "Chào buổi sáng!";
@@ -23,7 +17,7 @@ function greeting(h: number) {
 export function DashboardHeader({ onQuickAdd, onSearchPick }: { onQuickAdd: () => void; onSearchPick: (route: "tasks" | "goals") => void }) {
   const { data, today } = usePlanner();
   const [q, setQ] = useState("");
-  const quote = QUOTES[Number(today.slice(8)) % QUOTES.length];
+  const quote = quoteOfDay(today);
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (s.length < 2) return [];
@@ -37,7 +31,13 @@ export function DashboardHeader({ onQuickAdd, onSearchPick }: { onQuickAdd: () =
       <div className="min-w-0">
         <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{greeting(currentHour())}</h1>
         <p className="mt-1 text-lg font-semibold text-fg/80">Hôm nay bạn muốn hoàn thành điều gì?</p>
-        <p className="mt-1 text-sm text-muted">“{quote}”</p>
+        <figure className="mt-4 flex max-w-xl gap-3 rounded-2xl bg-lilac px-4 py-3 text-ink">
+          <QuoteIcon className="mt-0.5 h-5 w-5 shrink-0 opacity-60" aria-hidden />
+          <div>
+            <blockquote className="text-[15px] font-semibold leading-snug">{quote.text}</blockquote>
+            <figcaption className="mt-1 text-xs font-medium text-ink-soft">— {quote.author} · câu nói hôm nay</figcaption>
+          </div>
+        </figure>
         <SyncStatus className="mt-3" />
       </div>
       <div className="flex items-center gap-2">
