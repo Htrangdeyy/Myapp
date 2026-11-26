@@ -70,9 +70,9 @@ export function BottomNav({ route, onNavigate }: { route: Route; onNavigate: (r:
                 href={`#${r.id}`}
                 onClick={() => onNavigate(r.id)}
                 aria-current={active ? "page" : undefined}
-                className={cn("flex min-h-[60px] flex-col items-center justify-center gap-1 py-2.5 text-[13px] font-semibold leading-tight transition-colors", active ? "text-accent" : "text-nav-fg/70")}
+                className={cn("flex min-h-[76px] flex-col items-center justify-center gap-1.5 px-0.5 py-3 text-[14px] tracking-tight font-semibold leading-tight transition-colors", active ? "text-accent" : "text-nav-fg/70")}
               >
-                <Icon className="h-6 w-6" strokeWidth={active ? 2.4 : 2} />
+                <Icon className="h-7 w-7" strokeWidth={active ? 2.4 : 2} />
                 {r.label}
               </a>
             </li>
