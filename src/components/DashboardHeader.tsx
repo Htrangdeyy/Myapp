@@ -48,7 +48,7 @@ export function DashboardHeader({ onQuickAdd, onSearchPick }: { onQuickAdd: () =
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Tìm việc, sự kiện, mục tiêu…"
-            className="h-11 w-full rounded-full bg-surface pl-10 pr-4 text-sm shadow-soft outline-none focus:ring-2 focus:ring-accent/40"
+            className="h-12 w-full rounded-full bg-surface pl-11 pr-4 text-base shadow-soft outline-none focus:ring-2 focus:ring-accent/40"
             aria-label="Tìm kiếm"
           />
           {results.length > 0 && (
