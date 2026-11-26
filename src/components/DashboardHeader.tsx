@@ -1,5 +1,6 @@
 import { Plus, Quote as QuoteIcon, Search } from "lucide-react";
 import { quoteOfDay } from "@/domain/quotes";
+import { HSK3, wordOfDay } from "@/domain/hsk3";
 import { useMemo, useState } from "react";
 import { usePlanner } from "@/data/PlannerProvider";
 import { currentHour, fmtDM } from "@/lib/date";
@@ -18,6 +19,7 @@ export function DashboardHeader({ onQuickAdd, onSearchPick }: { onQuickAdd: () =
   const { data, today } = usePlanner();
   const [q, setQ] = useState("");
   const quote = quoteOfDay(today);
+  const { word, index } = wordOfDay(today);
   const results = useMemo(() => {
     const s = q.trim().toLowerCase();
     if (s.length < 2) return [];
@@ -38,6 +40,14 @@ export function DashboardHeader({ onQuickAdd, onSearchPick }: { onQuickAdd: () =
             <figcaption className="mt-1 text-xs font-medium text-ink-soft">— {quote.author} · câu nói hôm nay</figcaption>
           </div>
         </figure>
+        <div className="mt-2 flex max-w-xl items-center gap-4 rounded-2xl bg-mint px-4 py-3 text-ink" lang="zh">
+          <span className="text-4xl font-bold leading-none" style={{ fontFamily: '"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif' }}>{word.hanzi}</span>
+          <div className="min-w-0" lang="vi">
+            <div className="text-base font-bold">{word.pinyin}</div>
+            <div className="text-[15px] font-medium">{word.meaning}</div>
+            <div className="mt-0.5 text-xs font-medium text-ink-soft tabular">Từ HSK 3 hôm nay · {index + 1}/{HSK3.length}</div>
+          </div>
+        </div>
         <SyncStatus className="mt-3" />
       </div>
       <div className="flex items-center gap-2">

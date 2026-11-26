@@ -8,7 +8,7 @@ const scripts = [...html.matchAll(/<script[^>]*>[\s\S]*?<\/script>/g)].map((m) =
 const out = `<title>My Planner</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@700&display=swap">
 ${styles}
 <div id="root"></div>
 ${scripts}
