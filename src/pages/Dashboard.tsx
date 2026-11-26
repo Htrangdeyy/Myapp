@@ -23,6 +23,15 @@ export function Dashboard({ onQuickAdd, navigate }: { onQuickAdd: () => void; na
     <div className="flex flex-col gap-8">
       <DashboardHeader onQuickAdd={onQuickAdd} onSearchPick={navigate} />
 
+      {data.habits.length > 0 && (
+        <section>
+          <SectionTitle title="Thói quen" action={<Button size="sm" variant="soft" onClick={() => navigate("habits")}>Chi tiết</Button>} />
+          <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+            {data.habits.map((h) => <HabitRow key={h.key} habit={h} />)}
+          </div>
+        </section>
+      )}
+
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4" aria-label="Tổng quan">
         <ProgressCard label="Tổng công việc" value={s.total} hint="trong hôm nay" color="lavender" icon={ListTodo} />
         <ProgressCard label="Đã hoàn thành" value={s.done} hint={late.length ? `${late.length} việc quá hạn` : "không có việc quá hạn"} color="mint" icon={CheckCircle2} />
@@ -66,14 +75,6 @@ export function Dashboard({ onQuickAdd, navigate }: { onQuickAdd: () => void; na
             )}
           </section>
 
-          {data.habits.length > 0 && (
-            <section>
-              <SectionTitle title="Thói quen" action={<Button size="sm" variant="soft" onClick={() => navigate("habits")}>Chi tiết</Button>} />
-              <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-                {data.habits.map((h) => <HabitRow key={h.key} habit={h} />)}
-              </div>
-            </section>
-          )}
         </div>
         <aside className="min-w-0">
           <TodayAgenda />
