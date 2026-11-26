@@ -13,7 +13,6 @@ export function HabitCard({ habit }: { habit: Habit }) {
   const week = habitWeek(habit, today);
   const streak = habitStreak(habit, today);
   const doneToday = !!habit.log[today]?.done;
-  const tracked = !!habit.log[today];
   const weekDone = week.filter((d) => d.done).length;
   const Icon = iconFor(habit.name);
   return (
@@ -41,13 +40,13 @@ export function HabitCard({ habit }: { habit: Habit }) {
             <button
               key={d.date}
               type="button"
-              disabled={!d.tracked || busy || d.date > today}
+              disabled={busy || d.date > today}
               onClick={() => setHabit(habit.key, d.date, !d.done)}
               aria-label={`${weekdayShort(d.date)} ${d.done ? "đã làm" : "chưa làm"}`}
               className={cn(
                 "flex flex-col items-center gap-1 rounded-xl py-1.5 text-[11px] font-semibold transition-all",
                 isToday && "ring-2 ring-ink/70",
-                d.tracked && d.date <= today ? "hover:bg-white/50" : "opacity-40",
+                d.date <= today ? "hover:bg-white/50" : "opacity-40",
               )}
             >
               <span className="text-ink-soft">{weekdayShort(d.date)}</span>
@@ -59,8 +58,8 @@ export function HabitCard({ habit }: { habit: Habit }) {
         })}
       </div>
 
-      <Button variant={doneToday ? "ink-ghost" : "ink"} onClick={() => setHabit(habit.key, today, !doneToday)} disabled={!tracked || busy}>
-        {doneToday ? "Đã check-in hôm nay · bỏ" : tracked ? "Check-in hôm nay" : "Chưa có dòng cho hôm nay"}
+      <Button variant={doneToday ? "ink-ghost" : "ink"} onClick={() => setHabit(habit.key, today, !doneToday)} disabled={busy}>
+        {doneToday ? "Đã check-in hôm nay · bỏ" : "Check-in hôm nay"}
       </Button>
     </PastelCard>
   );

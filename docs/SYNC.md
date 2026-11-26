@@ -23,7 +23,7 @@ Column headers (row 3 today, but find them): Lịch việc = Ngày, Việc, Nhó
 | `taskStatus` {title, date, status} | Lịch việc: the row whose Việc = title and Ngày = date → Trạng thái = `Chưa làm`/`Đang làm`/`Xong`/`Bỏ qua` for status `todo`/`doing`/`done`/`skipped` |
 | `taskMove` {title, date, newDate} | that row's Ngày = newDate |
 | `taskAdd` {task:{date,title,category,repeat,priority,note,duration}} | `insertRows` below the last row dated on or before `date` (below the header if none), then write Ngày, Việc, Nhóm, Lặp lại (`once`→Một lần, `daily`→Hằng ngày, `weekly`→Hằng tuần, `monthly`→Hằng tháng, `quarterly`→Hằng quý), Trạng thái = Chưa làm, Ghi chú, Ưu tiên (`high`→Cao, `medium`→Vừa, `low`→Thấp, null→leave blank), Thời lượng — one `writeCells` per cell, skipping empty values |
-| `habit` {habitKey, date, done} | Thói quen: row whose Ngày = date, column whose header = habitKey → `true`/`false` |
+| `habit` {habitKey, date, done} | Thói quen: row whose Ngày = date, column whose header = habitKey → `true`/`false`. If no row has that date, add rows so the dates stay one per day with no gaps (`insertRows` above the first dated row for earlier dates, below the last for later ones), `copyCells` an existing dated row onto each new row so it keeps the checkboxes, then write its Ngày, Thứ (T2…T7, CN) and `false` in every habit column, before writing this change |
 
 Put all edits in one `applyEdits` with the revision you just read as `base`. If a target row is not found, skip
 that change and mention it in `lastError` below. Only these four kinds: ignore anything else in `pending`.

@@ -43,7 +43,7 @@ export function applyPending(data: PlannerData, pending: Pending[]): PlannerData
     else if (p.kind === "taskAdd") tasks = [...tasks, { id: `new:${p.id}`, row: 1e9, status: "todo", ...p.task }];
     else if (p.kind === "habit")
       habits = habits.map((h) =>
-        h.key === p.habitKey && h.log[p.date] ? { ...h, log: { ...h.log, [p.date]: { ...h.log[p.date], done: p.done } } } : h,
+        h.key === p.habitKey ? { ...h, log: { ...h.log, [p.date]: { row: h.log[p.date]?.row ?? -1, done: p.done } } } : h,
       );
   }
   return { ...data, tasks, habits };

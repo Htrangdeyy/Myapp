@@ -198,13 +198,10 @@ export function PlannerProvider({ children }: { children: ReactNode }) {
   const setHabit = useCallback(
     async (habitKey: string, date: ISODate, done: boolean) => {
       const h = data.habits.find((x) => x.key === habitKey);
-      if (!h?.log[date]) {
-        toast(`Sheet Thói quen chưa có dòng cho ngày ${date.split("-").reverse().join("/")}`, "error");
-        return;
-      }
+      if (!h) return;
       await queue({ kind: "habit", habitKey, date, done }, done ? `Đã check-in "${h.name}"` : `Đã bỏ check-in "${h.name}"`);
     },
-    [data.habits, queue, toast],
+    [data.habits, queue],
   );
   const toggleOccurrence = useCallback(
     (o: Occurrence) => (o.habitKey ? setHabit(o.habitKey, o.date, !o.done) : setTaskStatus(o.task, o.done ? "todo" : "done")),
