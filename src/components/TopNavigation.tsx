@@ -9,12 +9,12 @@ export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate:
   const { points, level } = productivityPoints(data);
   return (
     <header className="sticky z-30 pt-3" style={{ top: "env(safe-area-inset-top, 0px)" }}>
-      <nav className="flex h-[84px] items-center justify-between gap-2 rounded-full bg-nav px-3 text-nav-fg shadow-lift" aria-label="Chính">
+      <nav className="flex h-16 items-center justify-between gap-2 rounded-full bg-nav px-3 text-nav-fg shadow-lift" aria-label="Chính">
         <a href="#dashboard" onClick={() => onNavigate("dashboard")} className="flex min-w-0 items-center gap-2.5 pr-1">
-          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-accent text-xl font-extrabold text-accent-fg" aria-hidden>
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-base font-extrabold text-accent-fg" aria-hidden>
             B
           </span>
-          <span className="whitespace-nowrap text-[22px] font-extrabold tracking-tight sm:text-2xl">My Planner</span>
+          <span className="whitespace-nowrap text-lg font-bold tracking-tight">My Planner</span>
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -36,15 +36,15 @@ export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate:
         </ul>
 
         <div className="flex shrink-0 items-center gap-2">
-          <span className="hidden items-center gap-1.5 rounded-full bg-white/10 px-4 py-2.5 text-lg font-bold tabular sm:inline-flex" title="Điểm năng suất">
-            <Star className="h-5 w-5 text-butter" fill="currentColor" />
+          <span className="hidden items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold tabular sm:inline-flex" title="Điểm năng suất">
+            <Star className="h-4 w-4 text-butter" fill="currentColor" />
             {points}
           </span>
-          <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3.5 py-2.5 text-lg font-bold tabular" title="Cấp độ">
-            <Trophy className="h-5 w-5 text-accent" />
+          <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold tabular" title="Cấp độ">
+            <Trophy className="h-4 w-4 text-accent" />
             Lv {level}
           </span>
-          <span className="max-[389px]:hidden grid h-14 w-14 shrink-0 place-items-center rounded-full bg-peach text-lg font-bold text-ink" title="Hồ sơ">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-peach text-sm font-bold text-ink" title="Hồ sơ">
             Bl
           </span>
         </div>
