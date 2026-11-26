@@ -23,26 +23,26 @@ export function SyncStatus({ className }: { className?: string }) {
     sync.syncedAt ? `Lấy từ Blair's Calendar · ${ago(sync.syncedAt)}` :
     "Chưa đồng bộ lần nào";
   return (
-    <div className={cn("flex flex-wrap items-center gap-2 text-xs font-medium text-muted", className)}>
-      <span className="inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 shadow-soft">
-        {sync.lastError ? <AlertTriangle className="h-3.5 w-3.5 text-danger" /> : (
+    <div className={cn("flex flex-wrap items-center gap-2 text-sm font-medium text-muted", className)}>
+      <span className="inline-flex min-h-[36px] items-center gap-2 rounded-full bg-surface px-4 py-2 shadow-soft">
+        {sync.lastError ? <AlertTriangle className="h-4 w-4 text-danger" /> : (
           <span className={cn("h-2 w-2 rounded-full", mode === "live" && sync.syncedAt ? "bg-success" : mode === "demo" ? "bg-butter" : "bg-muted", busy && "animate-pulse")} />
         )}
         {label}
       </span>
       {sync.pending > 0 && (
-        <span className="rounded-full bg-butter px-3 py-1.5 font-semibold text-ink" title="Sẽ được ghi vào Sheet ở lần đồng bộ tới">
+        <span className="inline-flex min-h-[36px] items-center rounded-full bg-butter px-4 py-2 font-semibold text-ink" title="Sẽ được ghi vào Sheet ở lần đồng bộ tới">
           {sync.pending} thay đổi chờ ghi vào Sheet
         </span>
       )}
       {mode === "live" && sync.canTrigger && (
-        <button onClick={syncNow} disabled={sync.triggering} className="inline-flex items-center gap-1 rounded-full px-2 py-1.5 hover:text-fg disabled:opacity-50">
-          <RefreshCw className={cn("h-3.5 w-3.5", sync.triggering && "animate-spin")} /> Đồng bộ ngay
+        <button onClick={syncNow} disabled={sync.triggering} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full bg-surface/60 px-3 py-2 hover:text-fg disabled:opacity-50">
+          <RefreshCw className={cn("h-4 w-4", sync.triggering && "animate-spin")} /> Đồng bộ ngay
         </button>
       )}
       {mode === "live" && (
-        <a href={SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 rounded-full px-2 py-1.5 hover:text-fg">
-          <ExternalLink className="h-3.5 w-3.5" /> Mở Sheet
+        <a href={SHEET_URL} target="_blank" rel="noreferrer" className="inline-flex min-h-[36px] items-center gap-1.5 rounded-full bg-surface/60 px-3 py-2 hover:text-fg">
+          <ExternalLink className="h-4 w-4" /> Mở Sheet
         </a>
       )}
       {sync.lastError && <span className="w-full text-danger">Lần đồng bộ trước báo lỗi: {sync.lastError}</span>}

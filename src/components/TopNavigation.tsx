@@ -9,12 +9,12 @@ export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate:
   const { points, level } = productivityPoints(data);
   return (
     <header className="sticky z-30 pt-3" style={{ top: "env(safe-area-inset-top, 0px)" }}>
-      <nav className="flex h-16 items-center justify-between gap-4 rounded-full bg-nav px-3 text-nav-fg shadow-lift" aria-label="Chính">
+      <nav className="flex h-[72px] items-center justify-between gap-4 rounded-full bg-nav px-3 text-nav-fg shadow-lift" aria-label="Chính">
         <a href="#dashboard" onClick={() => onNavigate("dashboard")} className="flex items-center gap-3 pr-2">
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-accent text-sm font-extrabold text-accent-fg" aria-hidden>
+          <span className="grid h-12 w-12 place-items-center rounded-full bg-accent text-base font-extrabold text-accent-fg" aria-hidden>
             B
           </span>
-          <span className="text-base font-bold tracking-tight">My Planner</span>
+          <span className="text-lg font-bold tracking-tight">My Planner</span>
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -25,7 +25,7 @@ export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate:
                 onClick={() => onNavigate(r.id)}
                 aria-current={route === r.id ? "page" : undefined}
                 className={cn(
-                  "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                  "rounded-full px-5 py-2.5 text-[15px] font-semibold transition-colors",
                   route === r.id ? "bg-nav-fg text-nav" : "text-nav-fg/70 hover:text-nav-fg",
                 )}
               >
@@ -36,15 +36,15 @@ export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate:
         </ul>
 
         <div className="flex items-center gap-2">
-          <span className="hidden items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold tabular sm:inline-flex" title="Điểm năng suất">
+          <span className="hidden items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-2 text-base font-semibold tabular sm:inline-flex" title="Điểm năng suất">
             <Star className="h-4 w-4 text-butter" fill="currentColor" />
             {points}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold tabular" title="Cấp độ">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-2 text-base font-semibold tabular" title="Cấp độ">
             <Trophy className="h-4 w-4 text-accent" />
             Lv {level}
           </span>
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-peach text-sm font-bold text-ink" title="Hồ sơ">
+          <span className="grid h-12 w-12 place-items-center rounded-full bg-peach text-base font-bold text-ink" title="Hồ sơ">
             Bl
           </span>
         </div>
