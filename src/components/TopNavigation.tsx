@@ -1,12 +1,12 @@
-import { Star, Trophy } from "lucide-react";
+import { Flame } from "lucide-react";
 import { usePlanner } from "@/data/PlannerProvider";
-import { productivityPoints } from "@/domain/planner";
+import { overallStreak } from "@/domain/planner";
 import { cn } from "@/lib/utils";
 import { ROUTES, type Route } from "./nav";
 
 export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate: (r: Route) => void }) {
-  const { data } = usePlanner();
-  const { points, level } = productivityPoints(data);
+  const { data, today } = usePlanner();
+  const streak = overallStreak(data, today);
   return (
     <header className="sticky z-30 pt-3" style={{ top: "env(safe-area-inset-top, 0px)" }}>
       <nav className="flex h-16 items-center justify-between gap-2 rounded-full bg-nav px-3 text-nav-fg shadow-lift" aria-label="Chính">
@@ -36,13 +36,12 @@ export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate:
         </ul>
 
         <div className="flex shrink-0 items-center gap-2">
-          <span className="hidden items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold tabular sm:inline-flex" title="Điểm năng suất">
-            <Star className="h-4 w-4 text-butter" fill="currentColor" />
-            {points}
-          </span>
-          <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold tabular" title="Cấp độ">
-            <Trophy className="h-4 w-4 text-accent" />
-            Lv {level}
+          <span
+            className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold tabular"
+            title={streak.doneToday ? "Chuỗi ngày liên tiếp có check-in thói quen" : "Check-in một thói quen hôm nay để giữ chuỗi"}
+          >
+            <Flame className={streak.days > 0 ? "h-4 w-4 text-peach" : "h-4 w-4 text-nav-fg/50"} fill={streak.doneToday ? "currentColor" : "none"} />
+            {streak.days} ngày
           </span>
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-peach text-sm font-bold text-ink" title="Hồ sơ">
             Bl

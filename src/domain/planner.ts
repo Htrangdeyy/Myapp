@@ -166,3 +166,16 @@ export function productivityPoints(data: PlannerData): { points: number; level: 
   const level = Math.floor(points / 100) + 1;
   return { points, level, toNext: level * 100 - points };
 }
+
+/** Days in a row (ending today, or yesterday if today has none yet) with at least one habit check-in. */
+export function overallStreak(data: PlannerData, today: ISODate): { days: number; doneToday: boolean } {
+  const any = (d: ISODate) => data.habits.some((h) => h.log[d]?.done);
+  const doneToday = any(today);
+  let d = doneToday ? today : addDays(today, -1);
+  let days = 0;
+  while (any(d)) {
+    days++;
+    d = addDays(d, -1);
+  }
+  return { days, doneToday };
+}
