@@ -4,7 +4,8 @@ import { categoryColor, habitStreak, habitWeek } from "@/domain/planner";
 import type { Habit } from "@/domain/types";
 import { weekdayShort } from "@/lib/date";
 import { cn } from "@/lib/utils";
-import { PastelCard } from "./ui/card";
+import { PastelCard, pastelBg } from "./ui/card";
+import { CheckButton } from "./ui/checkbox";
 import { Button } from "./ui/button";
 import { iconFor } from "./icons";
 
@@ -62,5 +63,32 @@ export function HabitCard({ habit }: { habit: Habit }) {
         {doneToday ? "Đã check-in hôm nay · bỏ" : "Check-in hôm nay"}
       </Button>
     </PastelCard>
+  );
+}
+
+/** Compact one-line habit for the dashboard: name, streak, week dots and today's check-in. */
+export function HabitRow({ habit }: { habit: Habit }) {
+  const { today, setHabit, busy } = usePlanner();
+  const week = habitWeek(habit, today);
+  const streak = habitStreak(habit, today);
+  const doneToday = !!habit.log[today]?.done;
+  const Icon = iconFor(habit.name);
+  return (
+    <div className={cn("flex items-center gap-3 rounded-2xl px-3 py-2.5 text-ink", pastelBg[categoryColor(habit.name.split(" ")[0])])}>
+      <Icon className="h-4 w-4 shrink-0" aria-hidden />
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-sm font-bold">{habit.name}</div>
+        <div className="mt-1 flex gap-1" aria-hidden>
+          {week.map((d) => (
+            <span key={d.date} className={cn("h-1.5 w-4 rounded-full", d.done ? "bg-ink" : "bg-white/60", d.date === today && !d.done && "ring-1 ring-ink/40")} />
+          ))}
+        </div>
+      </div>
+      <span className="inline-flex shrink-0 items-center gap-0.5 text-xs font-bold tabular" title="Chuỗi ngày liên tiếp">
+        <Flame className={cn("h-3.5 w-3.5", streak > 0 ? "text-danger" : "text-ink-soft")} fill={streak > 0 ? "currentColor" : "none"} />
+        {streak}
+      </span>
+      <CheckButton checked={doneToday} onChange={() => setHabit(habit.key, today, !doneToday)} label={`Check-in ${habit.name} hôm nay`} disabled={busy} />
+    </div>
   );
 }

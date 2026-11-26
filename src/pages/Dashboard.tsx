@@ -8,7 +8,7 @@ import { TodayAgenda } from "@/components/TodayAgenda";
 import { SectionError } from "@/components/SyncStatus";
 import { SectionTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { HabitCard } from "@/components/HabitCard";
+import { HabitRow } from "@/components/HabitCard";
 import type { Route } from "@/components/nav";
 
 export function Dashboard({ onQuickAdd, navigate }: { onQuickAdd: () => void; navigate: (r: Route) => void }) {
@@ -69,8 +69,8 @@ export function Dashboard({ onQuickAdd, navigate }: { onQuickAdd: () => void; na
           {data.habits.length > 0 && (
             <section>
               <SectionTitle title="Thói quen" action={<Button size="sm" variant="soft" onClick={() => navigate("habits")}>Chi tiết</Button>} />
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                {data.habits.map((h) => <HabitCard key={h.key} habit={h} />)}
+              <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                {data.habits.map((h) => <HabitRow key={h.key} habit={h} />)}
               </div>
             </section>
           )}
