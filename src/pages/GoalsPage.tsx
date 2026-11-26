@@ -1,8 +1,8 @@
-import { CalendarClock, CheckCircle2, Flag, Repeat as RepeatIcon, Target, TrendingUp } from "lucide-react";
+import { CalendarClock, CheckCircle2, ChevronLeft, ChevronRight, Flag, Repeat as RepeatIcon, Target, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { usePlanner } from "@/data/PlannerProvider";
 import { categoryColor, goalMilestones, goalTasks } from "@/domain/planner";
-import { REPEAT_LABEL, type Goal, type Task } from "@/domain/types";
+import { REPEAT_LABEL, type CategoryColor, type Goal, type Task } from "@/domain/types";
 import { diffDays, fmtDMY, relativeDay } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { GoalCard } from "@/components/GoalCard";
@@ -11,7 +11,9 @@ import { SectionError, SyncStatus } from "@/components/SyncStatus";
 import { Dialog } from "@/components/ui/dialog";
 import { CheckButton } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
-import { pastelBg } from "@/components/ui/card";
+import { PastelCard, pastelBg } from "@/components/ui/card";
+import { Ring } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 
 const progressOf = (g: Goal, data: Parameters<typeof goalMilestones>[1]) => {
   if (g.progress > 0) return g.progress;
@@ -19,28 +21,68 @@ const progressOf = (g: Goal, data: Parameters<typeof goalMilestones>[1]) => {
   return ms.total ? ms.done / ms.total : 0;
 };
 
+const PHASE_COLORS: CategoryColor[] = ["lavender", "mint", "peach", "sky", "butter", "lilac"];
+
 export function GoalsPage() {
   const { data, today, sections } = usePlanner();
+  const [phase, setPhase] = useState<string | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
   const open = data.goals.find((g) => g.id === openId) ?? null;
 
-  const phases = [...new Set(data.goals.map((g) => g.phase || "Khác"))];
+  const phases = [...new Set(data.goals.map((g) => g.phase || "Khác"))].map((name, i) => {
+    const goals = data.goals.filter((g) => (g.phase || "Khác") === name);
+    const starts = goals.map((g) => g.start).filter(Boolean) as string[];
+    const ends = goals.map((g) => g.end).filter(Boolean) as string[];
+    const start = starts.sort()[0] ?? null;
+    const end = ends.sort().slice(-1)[0] ?? null;
+    return {
+      name, goals, start, end,
+      color: PHASE_COLORS[i % PHASE_COLORS.length],
+      progress: goals.reduce((s, g) => s + progressOf(g, data), 0) / goals.length,
+      current: (!start || start <= today) && (!end || end >= today),
+    };
+  });
+  const selected = phases.find((p) => p.name === phase) ?? null;
+
   const active = data.goals.filter((g) => (!g.start || g.start <= today) && (!g.end || g.end >= today));
   const avg = data.goals.length ? data.goals.reduce((s, g) => s + progressOf(g, data), 0) / data.goals.length : 0;
   const nextDeadline = data.goals.filter((g) => g.end && g.end >= today).sort((a, b) => (a.end! < b.end! ? -1 : 1))[0];
+
+  if (selected) {
+    return (
+      <div className="flex flex-col gap-5">
+        <div>
+          <Button variant="soft" size="sm" onClick={() => setPhase(null)}>
+            <ChevronLeft className="h-4 w-4" /> Tất cả giai đoạn
+          </Button>
+          <h1 className="mt-4 text-3xl font-extrabold tracking-tight">{selected.name}</h1>
+          <p className="mt-1 text-sm font-semibold text-muted tabular">
+            {selected.start ? fmtDMY(selected.start) : "?"} → {selected.end ? fmtDMY(selected.end) : "?"} · {selected.goals.length} mục tiêu · {Math.round(selected.progress * 100)}%
+          </p>
+          <p className="mt-1 text-sm text-muted">Chạm vào một mục tiêu để xem các việc nhỏ.</p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {selected.goals.map((g) => <GoalCard key={g.id} goal={g} compact onOpen={() => setOpenId(g.id)} />)}
+        </div>
+        <Dialog open={!!open} onClose={() => setOpenId(null)} title={open?.title ?? ""}>
+          {open && <GoalDetail goal={open} />}
+        </Dialog>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-3xl font-extrabold tracking-tight">Mục tiêu</h1>
-        <p className="mt-1 text-sm text-muted">Chạm vào một mục tiêu để xem các việc nhỏ của nó.</p>
+        <p className="mt-1 text-sm text-muted">Chạm vào một giai đoạn để xem các mục tiêu của nó.</p>
         <SyncStatus className="mt-2" />
       </div>
       <SectionError sheet="goals" />
 
       {data.goals.length > 0 && (
         <section className="grid grid-cols-2 gap-3 lg:grid-cols-4" aria-label="Tổng quan mục tiêu">
-          <ProgressCard label="Tổng mục tiêu" value={data.goals.length} hint={`${phases.length} giai đoạn`} color="lavender" icon={Target} />
+          <ProgressCard label="Tổng mục tiêu" value={data.goals.length} hint={`${phases.length} giai đoạn`} color="lilac" icon={Target} />
           <ProgressCard label="Đang diễn ra" value={active.length} hint="trong thời gian thực hiện" color="sky" icon={Flag} />
           <ProgressCard label="Tiến độ chung" value={`${Math.round(avg * 100)}%`} color="mint" icon={TrendingUp} ring={avg} />
           <ProgressCard
@@ -55,25 +97,36 @@ export function GoalsPage() {
 
       {sections.goals.loaded && !data.goals.length && !sections.goals.error && <p className="text-sm text-muted">Sheet Lộ trình chưa có mục tiêu nào.</p>}
 
-      {phases.map((p) => {
-        const goals = data.goals.filter((g) => (g.phase || "Khác") === p);
-        const phaseAvg = goals.reduce((s, g) => s + progressOf(g, data), 0) / goals.length;
-        return (
-          <section key={p}>
-            <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-              <h2 className="text-lg font-bold tracking-tight">{p}</h2>
-              <span className="text-sm font-semibold text-muted tabular">{goals.length} mục tiêu · {Math.round(phaseAvg * 100)}%</span>
+      <section className="flex flex-col gap-4" aria-label="Các giai đoạn">
+        {phases.map((p) => (
+          <PastelCard
+            key={p.name}
+            color={p.color}
+            role="button"
+            tabIndex={0}
+            onClick={() => setPhase(p.name)}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setPhase(p.name))}
+            className="flex cursor-pointer items-center gap-4"
+          >
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-lg font-extrabold tracking-tight">{p.name}</h2>
+                {p.current && <span className="rounded-full bg-ink px-2 py-0.5 text-[11px] font-bold text-white">Đang ở đây</span>}
+              </div>
+              <div className="mt-1 text-sm font-semibold text-ink-soft tabular">
+                {p.start ? fmtDMY(p.start) : "?"} → {p.end ? fmtDMY(p.end) : "?"}
+              </div>
+              <div className="mt-2 text-sm font-medium">{p.goals.length} mục tiêu</div>
+              <div className="mt-1 line-clamp-1 text-xs text-ink-soft">{p.goals.map((g) => g.title).join(" · ")}</div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {goals.map((g) => <GoalCard key={g.id} goal={g} compact onOpen={() => setOpenId(g.id)} />)}
+            <div className="relative grid shrink-0 place-items-center">
+              <Ring value={p.progress} size={64} stroke={7} />
+              <span className="absolute text-sm font-extrabold tabular">{Math.round(p.progress * 100)}%</span>
             </div>
-          </section>
-        );
-      })}
-
-      <Dialog open={!!open} onClose={() => setOpenId(null)} title={open?.title ?? ""}>
-        {open && <GoalDetail goal={open} />}
-      </Dialog>
+            <ChevronRight className="h-5 w-5 shrink-0" />
+          </PastelCard>
+        ))}
+      </section>
     </div>
   );
 }
