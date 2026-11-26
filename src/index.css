@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Layout: charcoal pill nav on a cool light canvas; pastel cards carry content. */
+:root {
+  --bg: 241 242 245;        /* #F1F2F5 */
+  --surface: 255 255 255;
+  --surface-2: 247 247 250;
+  --fg: 32 33 39;           /* #202127 */
+  --muted: 133 136 148;     /* #858894 */
+  --line: 228 229 235;
+  --accent: 169 149 245;    /* #A995F5 */
+  --accent-fg: 32 33 39;
+  --nav: 32 33 39;
+  --nav-fg: 241 242 245;
+  /* text that sits on a pastel card stays dark in both themes */
+  --ink: 32 33 39;
+  --ink-soft: 82 84 96;
+  --lavender: 220 197 242;  /* #DCC5F2 */
+  --sky: 185 221 235;       /* #B9DDEB */
+  --mint: 198 229 208;      /* #C6E5D0 */
+  --butter: 241 224 165;    /* #F1E0A5 */
+  --peach: 243 201 201;     /* #F3C9C9 */
+  --lilac: 230 217 244;     /* #E6D9F4 */
+  --danger: 214 88 88;
+  --success: 72 160 110;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: 22 23 28; --surface: 32 33 40; --surface-2: 40 41 50; --fg: 236 237 242; --muted: 150 153 166;
+    --line: 52 54 64; --accent: 181 164 248; --accent-fg: 22 23 28; --nav: 12 12 16; --nav-fg: 236 237 242;
+    --lavender: 200 178 228; --sky: 166 204 220; --mint: 178 214 190; --butter: 226 208 148; --peach: 228 184 184; --lilac: 212 198 232;
+    --danger: 236 120 120; --success: 110 196 146;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: 22 23 28; --surface: 32 33 40; --surface-2: 40 41 50; --fg: 236 237 242; --muted: 150 153 166;
+  --line: 52 54 64; --accent: 181 164 248; --accent-fg: 22 23 28; --nav: 12 12 16; --nav-fg: 236 237 242;
+  --lavender: 200 178 228; --sky: 166 204 220; --mint: 178 214 190; --butter: 226 208 148; --peach: 228 184 184; --lilac: 212 198 232;
+  --danger: 236 120 120; --success: 110 196 146;
+  color-scheme: dark;
+}
+
+html, body { min-height: 100%; }
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  font-family: Manrope, Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { text-wrap: balance; }
+.tabular { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 2px; }
+.gutter {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
