@@ -2,44 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Layout: charcoal pill nav on a cool light canvas; pastel cards carry content. */
+/* Layout: midnight-violet pill nav on a seashell canvas; light wheat / powder-blue cards, dark accents.
+   Palette: Seashell #FFF4EB, Wheat #F6E0B6, Powder Blue #A6BCC9, French Blue #3E4B8E, Midnight Violet #3D1534 */
 :root {
-  --bg: 241 242 245;        /* #F1F2F5 */
-  --surface: 255 255 255;
-  --surface-2: 247 247 250;
-  --fg: 32 33 39;           /* #202127 */
-  --muted: 133 136 148;     /* #858894 */
-  --line: 228 229 235;
-  --accent: 169 149 245;    /* #A995F5 */
-  --accent-fg: 32 33 39;
-  --nav: 32 33 39;
-  --nav-fg: 241 242 245;
-  /* text that sits on a pastel card stays dark in both themes */
-  --ink: 32 33 39;
-  --ink-soft: 82 84 96;
-  --lavender: 220 197 242;  /* #DCC5F2 */
-  --sky: 185 221 235;       /* #B9DDEB */
-  --mint: 198 229 208;      /* #C6E5D0 */
-  --butter: 241 224 165;    /* #F1E0A5 */
-  --peach: 243 201 201;     /* #F3C9C9 */
-  --lilac: 230 217 244;     /* #E6D9F4 */
-  --danger: 214 88 88;
-  --success: 72 160 110;
+  --bg: 255 244 235;        /* Seashell */
+  --surface: 255 251 247;
+  --surface-2: 250 238 227;
+  --fg: 61 21 52;           /* Midnight Violet */
+  --muted: 128 104 122;
+  --line: 239 224 212;
+  --accent: 62 75 142;      /* French Blue */
+  --accent-fg: 255 244 235;
+  --nav: 61 21 52;          /* Midnight Violet */
+  --nav-fg: 255 244 235;
+  /* text on light cards stays Midnight Violet in both themes */
+  --ink: 61 21 52;
+  --ink-soft: 104 74 98;
+  --lavender: 214 219 240;  /* French Blue tint */
+  --sky: 166 188 201;       /* Powder Blue */
+  --mint: 210 223 231;      /* Powder Blue tint */
+  --butter: 246 224 182;    /* Wheat */
+  --peach: 245 214 196;     /* warm Wheat-rose */
+  --lilac: 232 215 228;     /* Midnight Violet tint */
+  --danger: 176 58 88;
+  --success: 62 75 142;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: 22 23 28; --surface: 32 33 40; --surface-2: 40 41 50; --fg: 236 237 242; --muted: 150 153 166;
-    --line: 52 54 64; --accent: 181 164 248; --accent-fg: 22 23 28; --nav: 12 12 16; --nav-fg: 236 237 242;
-    --lavender: 200 178 228; --sky: 166 204 220; --mint: 178 214 190; --butter: 226 208 148; --peach: 228 184 184; --lilac: 212 198 232;
-    --danger: 236 120 120; --success: 110 196 146;
+    --bg: 31 14 28; --surface: 46 24 42; --surface-2: 58 32 53; --fg: 255 244 235; --muted: 190 168 182;
+    --line: 74 44 68; --accent: 166 188 201; --accent-fg: 61 21 52; --nav: 20 8 18; --nav-fg: 255 244 235;
+    --lavender: 196 203 232; --sky: 166 188 201; --mint: 196 212 222; --butter: 240 216 170; --peach: 236 200 182; --lilac: 220 200 216;
+    --danger: 236 130 150; --success: 166 188 201;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: 22 23 28; --surface: 32 33 40; --surface-2: 40 41 50; --fg: 236 237 242; --muted: 150 153 166;
-  --line: 52 54 64; --accent: 181 164 248; --accent-fg: 22 23 28; --nav: 12 12 16; --nav-fg: 236 237 242;
-  --lavender: 200 178 228; --sky: 166 204 220; --mint: 178 214 190; --butter: 226 208 148; --peach: 228 184 184; --lilac: 212 198 232;
-  --danger: 236 120 120; --success: 110 196 146;
+  --bg: 31 14 28; --surface: 46 24 42; --surface-2: 58 32 53; --fg: 255 244 235; --muted: 190 168 182;
+  --line: 74 44 68; --accent: 166 188 201; --accent-fg: 61 21 52; --nav: 20 8 18; --nav-fg: 255 244 235;
+  --lavender: 196 203 232; --sky: 166 188 201; --mint: 196 212 222; --butter: 240 216 170; --peach: 236 200 182; --lilac: 220 200 216;
+  --danger: 236 130 150; --success: 166 188 201;
   color-scheme: dark;
 }
 

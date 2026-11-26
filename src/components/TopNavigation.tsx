@@ -40,7 +40,7 @@ export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate:
             className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold tabular"
             title={streak.doneToday ? "Chuỗi ngày liên tiếp có check-in thói quen" : "Check-in một thói quen hôm nay để giữ chuỗi"}
           >
-            <Flame className={streak.days > 0 ? "h-4 w-4 text-peach" : "h-4 w-4 text-nav-fg/50"} fill={streak.doneToday ? "currentColor" : "none"} />
+            <Flame className={streak.days > 0 ? "h-4 w-4 text-butter" : "h-4 w-4 text-nav-fg/50"} fill={streak.doneToday ? "currentColor" : "none"} />
             {streak.days} ngày
           </span>
         </div>
@@ -66,7 +66,7 @@ export function BottomNav({ route, onNavigate }: { route: Route; onNavigate: (r:
                 href={`#${r.id}`}
                 onClick={() => onNavigate(r.id)}
                 aria-current={active ? "page" : undefined}
-                className={cn("flex min-h-[76px] flex-col items-center justify-center gap-1.5 px-0.5 py-3 text-[14px] tracking-tight font-semibold leading-tight transition-colors", active ? "text-accent" : "text-nav-fg/70")}
+                className={cn("flex min-h-[76px] flex-col items-center justify-center gap-1.5 px-0.5 py-3 text-[14px] tracking-tight font-semibold leading-tight transition-colors", active ? "text-butter" : "text-nav-fg/70")}
               >
                 <Icon className="h-7 w-7" strokeWidth={active ? 2.4 : 2} />
                 {r.label}
