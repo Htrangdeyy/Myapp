@@ -43,9 +43,6 @@ export function TopNavigation({ route, onNavigate }: { route: Route; onNavigate:
             <Flame className={streak.days > 0 ? "h-4 w-4 text-peach" : "h-4 w-4 text-nav-fg/50"} fill={streak.doneToday ? "currentColor" : "none"} />
             {streak.days} ngày
           </span>
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-peach text-sm font-bold text-ink" title="Hồ sơ">
-            Bl
-          </span>
         </div>
       </nav>
     </header>
