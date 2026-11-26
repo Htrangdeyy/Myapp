@@ -1,4 +1,4 @@
-import { CalendarClock, Milestone } from "lucide-react";
+import { CalendarClock, ChevronRight, Milestone } from "lucide-react";
 import { usePlanner } from "@/data/PlannerProvider";
 import { categoryColor, goalMilestones } from "@/domain/planner";
 import type { Goal } from "@/domain/types";
@@ -8,7 +8,7 @@ import { PastelCard } from "./ui/card";
 import { Progress } from "./ui/progress";
 import { iconFor } from "./icons";
 
-export function GoalCard({ goal, compact = false }: { goal: Goal; compact?: boolean }) {
+export function GoalCard({ goal, compact = false, onOpen }: { goal: Goal; compact?: boolean; onOpen?: () => void }) {
   const { data, today } = usePlanner();
   const ms = goalMilestones(goal, data);
   // progress: the sheet's own figure, else share of milestones done
@@ -16,7 +16,14 @@ export function GoalCard({ goal, compact = false }: { goal: Goal; compact?: bool
   const Icon = iconFor(goal.category || goal.title);
   const left = goal.end ? diffDays(goal.end, today) : null;
   return (
-    <PastelCard color={categoryColor(goal.category)} className="flex flex-col gap-3">
+    <PastelCard
+      color={categoryColor(goal.category)}
+      className={onOpen ? "flex cursor-pointer flex-col gap-3" : "flex flex-col gap-3"}
+      onClick={onOpen}
+      role={onOpen ? "button" : undefined}
+      tabIndex={onOpen ? 0 : undefined}
+      onKeyDown={onOpen ? (e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onOpen()) : undefined}
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-xs font-semibold uppercase tracking-wider text-ink-soft">{goal.phase || goal.category}</div>
@@ -34,7 +41,7 @@ export function GoalCard({ goal, compact = false }: { goal: Goal; compact?: bool
         </div>
         <Progress value={progress} />
       </div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap items-center gap-1.5">
         {goal.end && (
           <Badge>
             <CalendarClock className="h-3 w-3" /> {fmtDMY(goal.end)}
@@ -44,6 +51,11 @@ export function GoalCard({ goal, compact = false }: { goal: Goal; compact?: bool
         <Badge>
           <Milestone className="h-3 w-3" /> {ms.done}/{ms.total} mốc
         </Badge>
+        {onOpen && (
+          <span className="ml-auto inline-flex items-center gap-0.5 text-xs font-bold">
+            Xem việc <ChevronRight className="h-3.5 w-3.5" />
+          </span>
+        )}
       </div>
     </PastelCard>
   );

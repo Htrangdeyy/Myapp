@@ -150,10 +150,26 @@ export function habitWeek(h: Habit, today: ISODate): { date: ISODate; done: bool
 
 /* ---------- goals ---------- */
 
+/**
+ * Tasks in Lịch việc that belong to a goal: a milestone goal ("Mốc") matches tasks with the same
+ * title or date; any other goal matches tasks of the same group dated within its time span.
+ */
+export function goalTasks(goal: Goal, data: PlannerData): Task[] {
+  const isMilestone = goal.category.toLowerCase() === "mốc";
+  return data.tasks
+    .filter((t) => t.status !== "skipped")
+    .filter((t) => {
+      if (isMilestone) return t.title === goal.title || (!!goal.end && t.date === goal.end && t.repeat === "once");
+      if (t.category !== goal.category) return false;
+      if (!t.date) return true;
+      const from = goal.start ? addDays(goal.start, -14) : null;
+      return (!from || t.date >= from) && (!goal.end || t.date <= goal.end);
+    })
+    .sort((a, b) => ((a.date ?? "") < (b.date ?? "") ? -1 : 1));
+}
+
 export function goalMilestones(goal: Goal, data: PlannerData): { done: number; total: number } {
-  const ms = oneOffTasks(data).filter(
-    (t) => t.category === goal.category && t.status !== "skipped" && (!goal.end || !t.date || t.date <= goal.end),
-  );
+  const ms = goalTasks(goal, data).filter((t) => t.repeat === "once");
   return { done: ms.filter((t) => t.status === "done").length, total: ms.length };
 }
 
