@@ -6,7 +6,7 @@ import type { Route } from "./nav";
 
 export function AppShell({ route, onNavigate, onQuickAdd, children }: { route: Route; onNavigate: (r: Route) => void; onQuickAdd: () => void; children: ReactNode }) {
   return (
-    <div className="gutter mx-auto min-h-full max-w-[1320px] pb-28 md:pb-12">
+    <div className="gutter mx-auto min-h-full max-w-[1320px] pb-32 md:pb-12">
       <div
         aria-hidden
         className="pointer-events-none fixed inset-x-0 top-0 z-20 bg-bg"
@@ -18,7 +18,7 @@ export function AppShell({ route, onNavigate, onQuickAdd, children }: { route: R
         onClick={onQuickAdd}
         aria-label="Thêm việc"
         className="fixed z-30 grid h-14 w-14 place-items-center rounded-full bg-accent text-accent-fg shadow-lift transition active:scale-95 md:hidden"
-        style={{ right: "max(20px, calc(env(safe-area-inset-right, 0px) + 20px))", bottom: "calc(env(safe-area-inset-bottom, 0px) + 80px)" }}
+        style={{ right: "max(20px, calc(env(safe-area-inset-right, 0px) + 20px))", bottom: "calc(env(safe-area-inset-bottom, 0px) + 84px)" }}
       >
         <Plus className="h-6 w-6" />
       </button>
